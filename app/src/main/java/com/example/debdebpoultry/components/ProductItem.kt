@@ -313,26 +313,4 @@ class ProductItem : AppCompatActivity() {
         onBackPressed()
         return true
     }
-
-    //setting menu in action bar
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.option_menu_cart,menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    // actions on click menu items
-    override fun onOptionsItemSelected(item: MenuItem)
-    = when (item.itemId) {
-        R.id.cart -> {
-            // User chose the "Print" item
-            Toast.makeText(this,"cart", Toast.LENGTH_LONG).show()
-            true
-        }
-
-        else -> {
-            // If we got here, the user's action was not recognized.
-            // Invoke the superclass to handle it.
-            super.onOptionsItemSelected(item)
-        }
-    }
 }

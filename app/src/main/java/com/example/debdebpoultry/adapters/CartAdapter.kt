@@ -7,12 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.debdebpoultry.R
 import com.example.debdebpoultry.components.CheckOut
 import com.example.debdebpoultry.config.ApiUrlRoutes
 import com.example.debdebpoultry.models.CartModel
 import com.example.debdebpoultry.models.CartModel2
 import com.squareup.picasso.Picasso
+import java.util.HashMap
 
 class CartAdapter(private var totalAmount:TextView,private val btnCheckOut:Button, private val context: Context, private val cartList:ArrayList<CartModel>): RecyclerView.Adapter<CartAdapter.MyViewHolder>() {
     val list = ArrayList<CartModel2>()
@@ -43,6 +47,23 @@ class CartAdapter(private var totalAmount:TextView,private val btnCheckOut:Butto
         val imgHost = ApiUrlRoutes().hostImg + currentItem.img
         Picasso.get().load(imgHost).into(holder.img)
         holder.checkbox.isChecked = currentItem.isChecked
+
+        holder.unit.setOnClickListener {
+            val url = ApiUrlRoutes(currentItem.id).getCart
+            val stringRequest= object : StringRequest(
+                Method.DELETE,url,
+                Response.Listener{
+                    Toast.makeText(context, "Deleted!", Toast.LENGTH_SHORT).show()
+                    cartList.removeAt(position)
+                    notifyItemRemoved(position)
+                },
+                Response.ErrorListener {
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                }){}
+
+            val queue = Volley.newRequestQueue(context)
+            queue.add(stringRequest)
+        }
 
         holder.checkbox.setOnCheckedChangeListener { compoundButton, b ->
             var tempTotal = 0.00

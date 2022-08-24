@@ -23,18 +23,18 @@
                 android:layout_centerInParent="true"
                  />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/cardImg"
                 android:layout_width="100dp"
                 android:layout_height="90dp"
-                android:layout_toRightOf="@+id/checkbox"
+                android:layout_toEndOf="@+id/checkbox"
                 android:layout_alignParentTop="true"
                 android:backgroundTint="@color/peach"
                 android:contentDescription="@string/fresh_eggs"
                 android:scaleType="centerCrop"
                 android:src="@drawable/eggs" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_margin="4dp"
                 android:id="@+id/tvTrayQuantity"
                 android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
                 android:layout_alignParentEnd="true"
                 android:text="x2" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,16 +66,16 @@
                 android:text="3800.00"
                 android:textSize="14sp" />
 
-            <TextView
-                android:drawableEnd="@drawable/ic_baseline_delete_forever_24"
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/tvProduct"
                 android:layout_alignBottom="@+id/cardImg"
                 android:layout_marginTop="4dp"
+                android:text="@string/small"
                 android:textColor="@color/dark_gray"
-                android:text="@string/small" />
+                app:drawableEndCompat="@drawable/ic_baseline_delete_forever_24" />
 
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>

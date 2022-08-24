@@ -13,6 +13,7 @@ import android.widget.Toast
 import android.widget.Toolbar
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -24,6 +25,7 @@ import com.example.debdebpoultry.login.SignIn
 import com.example.debdebpoultry.models.ProductCategoryModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
+import java.util.HashMap
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bottomNav:BottomNavigationView
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var productList: ArrayList<ProductCategoryModel>
     private lateinit var spf : SharedPref
     private val tHome = "Debdeb Poultry"
-    private val tOrder = "Orders"
+    private val tOrder = "Purchases"
     private val tNotif = "Notification"
     private val tCart = "Cart"
     private val tProfile = "Profile"
@@ -94,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         R.id.signout -> {
-            signOut()
+            logout()
             true
         }
 
@@ -105,10 +107,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun logout() {
+        val url = ApiUrlRoutes().logout
+        val stringRequest= object : StringRequest(
+            Method.POST,url,
+            Response.Listener{
+                Toast.makeText(this, "Logged out!", Toast.LENGTH_SHORT).show()
+                signOut()
+            },
+            Response.ErrorListener {
+                Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+            }){
+            override fun getParams(): MutableMap<String, String> {
+                val params= HashMap<String,String>()
+                params["user"] = spf.userID.toString()
+                return params
+            }
+        }
+
+        val queue = Volley.newRequestQueue(this)
+        queue.add(stringRequest)
+    }
+
     private fun signOut(){
         spf.signOut()
         val intent = Intent(this@MainActivity, SignIn::class.java)
-        Toast.makeText(this, "Logged out!", Toast.LENGTH_SHORT).show()
         startActivity(intent)
         finish()
     }

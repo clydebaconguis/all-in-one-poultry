@@ -28,4 +28,6 @@ class ApiUrlRoutes(val id:Int=0) {
     //Orders
     val saveOrder = host + "transactions"
     val getTransac = host + "transactions/$id"
+
+    val logout = host + "logout"
 }

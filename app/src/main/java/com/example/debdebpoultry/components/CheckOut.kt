@@ -1,10 +1,14 @@
 package com.example.debdebpoultry.components
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
@@ -23,6 +27,8 @@ import com.example.debdebpoultry.R
 import com.example.debdebpoultry.config.ApiUrlRoutes
 import com.example.debdebpoultry.config.SharedPref
 import com.example.debdebpoultry.models.CartModel2
+import com.example.debdebpoultry.pages.CartFragment
+import com.example.debdebpoultry.pages.MainActivity
 import com.squareup.picasso.Picasso
 import org.json.JSONArray
 import org.json.JSONObject
@@ -68,7 +74,6 @@ class CheckOut : AppCompatActivity() {
         val check: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_check_circle_24, null)
         rdCod.buttonDrawable = uncheck
         rdGcash.buttonDrawable = uncheck
-
         rdCod.setOnClickListener {
             paymentOpt = "COD"
             rdCod.buttonDrawable = check
@@ -89,11 +94,10 @@ class CheckOut : AppCompatActivity() {
 
         tvAddress.text = spf.userAddress
 
-
         addView()
     }
 
-    fun saveOrder(){
+    private fun saveOrder(){
         val user_id = spf.userID.toString()
         val user_add = spf.userAddress.toString()
         val total_payment = totFee.toString()
@@ -119,6 +123,31 @@ class CheckOut : AppCompatActivity() {
             Response.Listener{
                 loading.isVisible = false
                 Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+                val jobj = JSONObject(it)
+                val code = jobj.getString("trans_code")
+                val name = spf.name
+
+                val alertDialog = AlertDialog.Builder(this)
+                    //set icon
+                    .setIcon(R.drawable.ic_baseline_receipt_24)
+                    //set title
+                    .setTitle("Official Receipt")
+                    //set message
+                    .setMessage("$name \nTransaction code: $code \nTotal Payment: $totFee")
+                    //set positive button
+                    .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, i ->
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    })
+                    //set negative button
+//                    .setNegativeButton("No", DialogInterface.OnClickListener { dialogInterface, i ->
+//                        //set what should happen when negative button is clicked
+//                        Toast.makeText(applicationContext, "Nothing Happened", Toast.LENGTH_LONG).show()
+//                    })
+                    .show()
+
+                alertDialog
             },
             Response.ErrorListener {
                 loading.isVisible = false
@@ -147,7 +176,6 @@ class CheckOut : AppCompatActivity() {
         queue.add(stringRequest)
     }
 
-
     private fun addView(){
         carts = intent?.getParcelableArrayListExtra("carts")!!
         var subTot = 0.00
@@ -173,7 +201,7 @@ class CheckOut : AppCompatActivity() {
         }
         val sb = "Php $subTot"
         val df = "Php 100"
-        totFee = 100.00 + subTot
+        totFee = ((subTot * 0.05) + subTot) + 100.00
         val tp = "Php $totFee"
         val tt = "Total: Php $totFee"
         tvSubTotal.text = sb

@@ -17,6 +17,10 @@ class SharedPref(val context: Context) {
         get() {
             return preferences.getInt(mID,0)
         }
+    val name : String?
+        get() {
+            return preferences.getString(mName, "")
+        }
     val userAddress : String?
         get() {
             return preferences.getString(mAddress, "")
