@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.debdebpoultry">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Debdeb Poultry"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/App.Theme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".components.CheckOut"
+            android:exported="true" />
+        <activity
+            android:name=".login.SignUp"
+            android:exported="false" />
+        <activity
+            android:name=".login.SignIn"
+            android:exported="true" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".components.ProductItem"
+            android:exported="true" />
+        <activity
+            android:name=".pages.MainActivity"
+            android:exported="true">
+        </activity>
+    </application>
+
+</manifest>

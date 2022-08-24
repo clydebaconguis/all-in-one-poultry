@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Debdeb</string>
+    <string name="company">Debdeb Poultry Farm</string>
+    <string name="buy_eggs">Buy Eggs</string>
+    <string name="reserve">Reserve</string>
+    <string name="title_activity_buy_eggs">BuyEggs</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="fresh_eggs">Fresh Eggs</string>
+    <string name="enter_no_of_tray">Enter Quantity</string>
+    <string name="small">Small</string>
+    <string name="medium">Medium</string>
+    <string name="large">Large</string>
+    <string name="x_large">X-large</string>
+    <string name="stocks">Stocks</string>
+    <string name="sizes">Sizes</string>
+    <string name="available">Available</string>
+    <string name="prices">Prices</string>
+    <string name="purchase">Purchase</string>
+    <string name="notification">Notification</string>
+    <string name="purchased">Purchases</string>
+    <string name="cart">Cart</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+
+    <string-array name="eggType">
+        <item>Chicken</item>
+        <item>Duck</item>
+        <item>Ostrich</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="orders">Orders</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="payment_options">Payment Options</string>
+    <string name="cash_on_delivery">Cash On Delivery</string>
+    <string name="transac_no">Transac No.</string>
+</resources>

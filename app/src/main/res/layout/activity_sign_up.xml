@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+    tools:context=".login.SignUp">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/purple_700"
+            android:textSize="25sp"
+            android:fontFamily="@font/robotoslabold"
+            android:text="Debdeb Poultry Farm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="36.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/custom_rounded_card">
+            <!-- INPUT -->
+            <EditText
+                android:id="@+id/fullname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/fullname_icon"
+                android:autofillHints=""
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/robotoslabold"
+                android:hint="Fullname"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingStart="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="12sp" />
+            <!-- ICON -->
+            <ImageView
+                android:id="@+id/fullname_icon"
+                android:layout_width="14.7dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="17dp"
+                android:src="@drawable/profile" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="12.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/custom_rounded_card">
+            <!-- INPUT -->
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/address_icon"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/robotoslabold"
+                android:hint="Address"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingLeft="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="12sp"
+                android:autofillHints="" />
+            <!-- ICON -->
+            <ImageView
+                android:id="@+id/address_icon"
+                android:layout_width="17dp"
+                android:layout_height="18dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="17dp"
+                android:src="@drawable/location" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="12.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/custom_rounded_card">
+            <!-- INPUT -->
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/username_icon"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/robotoslabold"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingLeft="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="12sp" />
+            <!-- ICON -->
+            <ImageView
+                android:id="@+id/username_icon"
+                android:layout_width="14.7dp"
+                android:layout_height="10.3dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="17dp"
+                android:src="@drawable/email" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="12.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/custom_rounded_card">
+            <!-- INPUT -->
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/icon"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/robotoslabold"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:paddingStart="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="12sp" />
+            <!-- ICON -->
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="14.7dp"
+                android:layout_height="10.3dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="17dp"
+                android:src="@drawable/password"
+                android:contentDescription="icon" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/blue_fill__rounded_color"
+            android:fontFamily="@font/robotoslabold"
+            android:gravity="center"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Register"
+            android:clickable="true"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="18.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/custom_rounded_card"
+            android:fontFamily="@font/robotoslabold"
+            android:gravity="center"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Login"
+            android:clickable="true"
+            android:textColor="#1566e0"
+            android:textSize="12sp"
+            android:focusable="true" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
+</RelativeLayout>

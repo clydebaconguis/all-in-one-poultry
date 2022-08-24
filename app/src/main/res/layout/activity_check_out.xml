@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".components.CheckOut">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/card"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/purple_500"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:navigationIcon="@drawable/ic_baseline_chevron_left_24"
+                app:titleTextColor="@color/white">
+
+                <TextView
+                    android:id="@+id/toolbarTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotoslabold"
+                    android:text="Checkout"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </androidx.appcompat.widget.Toolbar>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_baseline_location_on_24"
+                android:drawablePadding="5dp"
+                android:drawableTint="@color/light_red"
+                android:padding="2dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginHorizontal="5dp"
+                android:backgroundTint="@color/light_gray_2"
+                android:background="@drawable/custom_rounded_card"
+                android:text="@string/delivery_address"
+                android:textColor="@color/black" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:padding="10dp"
+                android:text="My address"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginVertical="5dp"
+                android:background="@color/dark_gray" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_baseline_attach_money_24"
+                android:drawablePadding="5dp"
+                android:drawableTint="@color/yellow"
+                android:padding="2dp"
+                android:layout_marginHorizontal="5dp"
+                android:backgroundTint="@color/light_gray_2"
+                android:background="@drawable/custom_rounded_card"
+                android:text="Payment Options"
+                android:textColor="@color/black" />
+
+            <TableRow
+                android:layout_marginVertical="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="20dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="150dp"
+                    android:scaleType="centerCrop"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/cod"
+                     />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/rdCod"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="5dp"
+                android:background="@color/black" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:orientation="horizontal"
+                android:paddingStart="20dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/gcash"
+                     />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/rdGcash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginVertical="5dp"
+                android:background="@color/black" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/contain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginVertical="5dp"
+                android:background="@color/black" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/containDetails"
+                android:orientation="vertical"
+                android:background="@drawable/custom_card"
+                android:layout_margin="20dp"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_baseline_payments_24"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/light_gray"
+                    android:padding="10dp"
+                    android:text="Payment Details"
+                    android:textColor="@color/black" />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Subtotal"
+                            android:padding="10dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvSubTotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:padding="10dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delivery Fee"
+                            android:padding="10dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvDeliveryFee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:padding="10dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Payment"
+                            android:padding="10dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvTotalPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:padding="10dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            />
+                    </TableRow>
+                </TableLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:background="@drawable/custom_card_total_amount"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/tvTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Php 0.00"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:scrollHorizontally="true"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/robotoslabold"
+                android:textColor="@color/white"
+                android:textSize="23sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPlaceOrder"
+                app:cornerRadius="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="12dp"
+                android:text="Place Order"
+                android:textSize="16sp"
+                android:fontFamily="@font/robotoslabold"
+                android:textAllCaps="false"
+                />
+        </TableRow>
+    </com.google.android.material.card.MaterialCardView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
+
+
+</RelativeLayout>

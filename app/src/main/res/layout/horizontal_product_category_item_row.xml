@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="3dp"
+    android:background="@color/white"
+    app:cardElevation="1dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/cardImg"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:backgroundTint="@color/peach"
+                android:contentDescription="@string/fresh_eggs"
+                android:scaleType="centerCrop"
+                android:src="@drawable/eggs" />
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:id="@+id/tvProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cardImg"
+                android:layout_marginTop="10dp"
+                android:maxLines="1"
+                android:fontFamily="@font/robotoslabold"
+                android:textColor="@color/black"
+                android:text="@string/fresh_eggs"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvProduct"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/available"
+                android:textSize="12sp"
+                android:textColor="@color/green"
+                 />
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>

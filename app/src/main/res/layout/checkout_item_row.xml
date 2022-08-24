@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="0dp"
+    android:fadingEdge="vertical"
+    android:background="@color/white"
+    >
+        <RelativeLayout
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_marginHorizontal="4dp"
+                android:id="@+id/checkImg"
+                android:layout_centerInParent="true"
+                android:layout_alignParentStart="true"
+                android:layout_width="wrap_content"
+                app:srcCompat="@drawable/ic_baseline_check_circle_outline_24"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/cardImg"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_toEndOf="@+id/checkImg"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:backgroundTint="@color/peach"
+                android:contentDescription="@string/fresh_eggs"
+                android:scaleType="centerCrop"
+                android:src="@drawable/eggs" />
+
+            <TextView
+                android:id="@+id/tvProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/cardImg"
+                android:maxLines="1"
+                android:text="@string/fresh_eggs"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvTrayQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="x2"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tvProduct"
+                android:layout_alignBottom="@+id/cardImg"
+                android:text="3800.00"
+                android:textColor="@color/black"
+               />
+
+            <TextView
+                android:id="@+id/tvUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tvTotal"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:text="Small"
+                android:textColor="@color/black"
+                 />
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
