@@ -115,11 +115,12 @@ class SignIn : AppCompatActivity() {
                 val uID = juser.getInt("id")
                 val uName = juser.getString("name")
                 val uEmail = juser.getString("email")
+                val uPhone = juser.getString("phone")
                 val uAddress = juser.getString("address")
                 val uToken = jobj.getString("token")
 
                 if (uID.toString().isNotEmpty() && uName.isNotEmpty() && uEmail.isNotEmpty() && uAddress.isNotEmpty() && uToken.isNotEmpty()){
-                    spf.store(uID, uName, uAddress, uEmail, uToken)
+                    spf.store(uID, uName, uPhone, uAddress, uEmail, uToken)
                     Toast.makeText(this, "Welcome $uName", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)

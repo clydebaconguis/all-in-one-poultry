@@ -34,7 +34,7 @@ class OrdersAdapter(private val context: Context, private val itemList:ArrayList
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = itemList[position]
-        val code = "Transac No." + currentItem.transaction
+        val code = "Transac Code " + currentItem.transaction
         holder.code.text = code
         holder.status.text=currentItem.status
 

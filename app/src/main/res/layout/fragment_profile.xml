@@ -1,14 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".pages.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/profile" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:cardCornerRadius="50dp"
+        android:layout_margin="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:src="@drawable/profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/name"
+        android:text="Ed laurence Sandoval"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/robotoslabold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/phone"
+        android:drawableStart="@drawable/ic_baseline_phone_enabled_24"
+        android:drawableTint="@color/blue"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/custom_rounded_text"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"
+        android:text="09554567790"
+        android:textColor="@color/black"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/address"
+        android:drawableStart="@drawable/ic_baseline_location_on_24"
+        android:drawableTint="@color/light_red"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/custom_rounded_text"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"
+        android:text="Bulua, Cdo, Mis-Or"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/phone"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/email"
+        android:drawableStart="@drawable/ic_baseline_email_24"
+        android:drawableTint="@color/yellow2"
+        android:drawablePadding="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/custom_rounded_text"
+        android:paddingVertical="10dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:text="edlaurence@gmail.com"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/signout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="20dp"
+        app:cornerRadius="4dp"
+        android:text="Sign out"
+        android:textAllCaps="false"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

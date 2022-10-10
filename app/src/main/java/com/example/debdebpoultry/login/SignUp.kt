@@ -26,6 +26,7 @@ class SignUp : AppCompatActivity() {
     private lateinit var btn_login:TextView
     private lateinit var btn_register:TextView
     private lateinit var email:EditText
+    private lateinit var phone:EditText
     private lateinit var password:EditText
     private lateinit var fullname:EditText
     private lateinit var address:EditText
@@ -40,6 +41,7 @@ class SignUp : AppCompatActivity() {
         email = findViewById(R.id.email)
         password = findViewById(R.id.password)
         fullname = findViewById(R.id.fullname)
+        phone = findViewById(R.id.phone)
         address = findViewById(R.id.address)
         loading = findViewById(R.id.progressBar)
         loading.isVisible = false
@@ -66,12 +68,12 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun register(){
-
         loading.isVisible = true
         val uemail = email.text.toString()
         val upass = password.text.toString()
         val ufname = fullname.text.toString()
         val uaddress= address.text.toString()
+        val uphone= phone.text.toString()
         val url = ApiUrlRoutes().register
         val stringRequest= object : StringRequest(
             Method.POST,url,
@@ -102,7 +104,7 @@ class SignUp : AppCompatActivity() {
                 params["password"]= upass
                 params["name"]= ufname
                 params["address"]= uaddress
-
+                params["phone"]= uphone
                 return params
             }
         }
@@ -119,11 +121,12 @@ class SignUp : AppCompatActivity() {
                 val uID = juser.getInt("id")
                 val uName = juser.getString("name")
                 val uEmail = juser.getString("email")
+                val uPhone = juser.getString("phone")
                 val uAddress = juser.getString("address")
                 val uToken = jobj.getString("token")
 
                 if (uID.toString().isNotEmpty() && uName.isNotEmpty() && uEmail.isNotEmpty() && uAddress.isNotEmpty() && uToken.isNotEmpty()){
-                    spf.store(uID, uName, uAddress, uEmail, uToken)
+                    spf.store(uID, uName, uPhone, uAddress, uEmail, uToken)
                     Toast.makeText(this, "Welcome $uName", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)

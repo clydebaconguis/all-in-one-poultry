@@ -8,6 +8,7 @@ class SharedPref(val context: Context) {
     private val mName = "uName"
     private val mAddress = "uAddress"
     private val mEmail = "uEmail"
+    private val mPhone = "uPhone"
     private val mToken = "uToken"
     private val PREF_NAME = "poultryapp"
     private var preferences: SharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -21,6 +22,14 @@ class SharedPref(val context: Context) {
         get() {
             return preferences.getString(mName, "")
         }
+    val phone : String?
+        get() {
+            return preferences.getString(mPhone, "")
+        }
+    val email : String?
+        get() {
+            return preferences.getString(mEmail, "")
+        }
     val userAddress : String?
         get() {
             return preferences.getString(mAddress, "")
@@ -28,8 +37,8 @@ class SharedPref(val context: Context) {
     fun hasToken(): Boolean {
         return preferences.getString(mToken,"") != ""
     }
-    fun store(uID:Int, uName:String, uAddress:String, uEmail:String, uToken:String){
-       editor.putInt(mID, uID).putString(mName, uName).putString(mAddress, uAddress)
+    fun store(uID:Int, uName:String, uPhone:String, uAddress:String, uEmail:String, uToken:String){
+       editor.putInt(mID, uID).putString(mName, uName).putString(mAddress, uAddress).putString(mPhone,uPhone)
             .putString(mEmail, uEmail).putString(mToken, uToken).apply()
     }
     fun signOut(){

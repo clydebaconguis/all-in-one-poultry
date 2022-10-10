@@ -29,6 +29,7 @@ import com.example.debdebpoultry.config.SharedPref
 import com.example.debdebpoultry.models.CartModel2
 import com.example.debdebpoultry.pages.CartFragment
 import com.example.debdebpoultry.pages.MainActivity
+import com.google.android.material.textfield.TextInputEditText
 import com.squareup.picasso.Picasso
 import org.json.JSONArray
 import org.json.JSONObject
@@ -39,13 +40,16 @@ class CheckOut : AppCompatActivity() {
     private lateinit var contain : LinearLayoutCompat
     private lateinit var containDetails : LinearLayoutCompat
     private lateinit var tvSubTotal : TextView
+    private lateinit var editAddress : TextView
+    private lateinit var editPhone : TextView
     private lateinit var tvDeliveryFee : TextView
     private lateinit var tvTotalPayment : TextView
     private lateinit var tvTotal : TextView
     private lateinit var rdCod : RadioButton
     private lateinit var rdGcash : RadioButton
     private lateinit var btnPlaceOrder : Button
-    private lateinit var tvAddress : TextView
+    private lateinit var tvAddress : TextInputEditText
+    private lateinit var tvPhone : TextInputEditText
     private lateinit var spf : SharedPref
     private lateinit var loading : ProgressBar
     private var paymentOpt : String = ""
@@ -70,6 +74,9 @@ class CheckOut : AppCompatActivity() {
         rdCod = findViewById(R.id.rdCod)
         rdGcash = findViewById(R.id.rdGcash)
         loading = findViewById(R.id.progressBar)
+        editAddress = findViewById(R.id.editAddress)
+        editPhone = findViewById(R.id.editPhone)
+        tvPhone = findViewById(R.id.phone)
         val uncheck: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_radio_button_unchecked_24, null)
         val check: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_check_circle_24, null)
         rdCod.buttonDrawable = uncheck
@@ -91,8 +98,14 @@ class CheckOut : AppCompatActivity() {
                 Toast.makeText(this, "Select payment option pls!", Toast.LENGTH_SHORT).show()
             }
         }
-
-        tvAddress.text = spf.userAddress
+        editAddress.setOnClickListener {
+            tvAddress.isEnabled = true
+        }
+        editPhone.setOnClickListener {
+            tvPhone.isEnabled = true
+        }
+        tvAddress.setText(spf.userAddress.toString().replaceFirstChar { it.uppercase() })
+        tvPhone.setText("+63 " + spf.phone)
 
         addView()
     }
@@ -122,10 +135,10 @@ class CheckOut : AppCompatActivity() {
 
             Response.Listener{
                 loading.isVisible = false
-                Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
                 val jobj = JSONObject(it)
                 val code = jobj.getString("trans_code")
-                val name = spf.name
+                val name = spf.name.toString().replaceFirstChar{ it.uppercase() }
 
                 val alertDialog = AlertDialog.Builder(this)
                     //set icon
@@ -133,13 +146,13 @@ class CheckOut : AppCompatActivity() {
                     //set title
                     .setTitle("Official Receipt")
                     //set message
-                    .setMessage("$name \nTransaction code: $code \nTotal Payment: $totFee")
+                    .setMessage("$name \nAddress: Cagayan de Oro City \nPhone: 09554587790 \nTransaction code: $code \nTotal Payment: $totFee")
                     //set positive button
                     .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, i ->
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
-                    })
+                    }).setCancelable(false)
                     //set negative button
 //                    .setNegativeButton("No", DialogInterface.OnClickListener { dialogInterface, i ->
 //                        //set what should happen when negative button is clicked

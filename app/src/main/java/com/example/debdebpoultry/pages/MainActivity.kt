@@ -83,56 +83,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     //setting menu in action bar
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.option_menu,menu)
-        return super.onCreateOptionsMenu(menu)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.option_menu,menu)
+//        return super.onCreateOptionsMenu(menu)
+//    }
 
     // actions on click menu items
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.reserve -> {
-            Toast.makeText(this,"Reserve", Toast.LENGTH_LONG).show()
-            true
-        }
-
-        R.id.signout -> {
-            logout()
-            true
-        }
-
-        else -> {
-            // If we got here, the user's action was not recognized.
-            // Invoke the superclass to handle it.
-            super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun logout() {
-        val url = ApiUrlRoutes().logout
-        val stringRequest= object : StringRequest(
-            Method.POST,url,
-            Response.Listener{
-                Toast.makeText(this, "Logged out!", Toast.LENGTH_SHORT).show()
-                signOut()
-            },
-            Response.ErrorListener {
-                Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
-            }){
-            override fun getParams(): MutableMap<String, String> {
-                val params= HashMap<String,String>()
-                params["user"] = spf.userID.toString()
-                return params
-            }
-        }
-
-        val queue = Volley.newRequestQueue(this)
-        queue.add(stringRequest)
-    }
-
-    private fun signOut(){
-        spf.signOut()
-        val intent = Intent(this@MainActivity, SignIn::class.java)
-        startActivity(intent)
-        finish()
-    }
+//    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+//        R.id.reserve -> {
+//            Toast.makeText(this,"Reserve", Toast.LENGTH_LONG).show()
+//            true
+//        }
+//
+//        R.id.signout -> {
+//            logout()
+//            true
+//        }
+//
+//        else -> {
+//            // If we got here, the user's action was not recognized.
+//            // Invoke the superclass to handle it.
+//            super.onOptionsItemSelected(item)
+//        }
+//    }
 }

@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
@@ -38,6 +40,7 @@ class OrdersFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var loading : ProgressBar
+    private lateinit var noDisplay : TextView
     private lateinit var recyclerView: RecyclerView
     private var list = ArrayList<OrdersModel>()
     private lateinit var spf : SharedPref
@@ -85,6 +88,7 @@ class OrdersFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerOrders)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
+        noDisplay = view.findViewById(R.id.tvEmptyList)
         fetchData()
     }
 
@@ -120,7 +124,11 @@ class OrdersFragment : Fragment() {
                 index++
             }
 
-            recyclerView.adapter = OrdersAdapter(requireContext(),list)
+            if (list.count() > 0 ){
+                recyclerView.adapter = OrdersAdapter(requireContext(),list)
+                noDisplay.isVisible = false
+            }
+
 
         }catch (e: Exception){
             e.printStackTrace()

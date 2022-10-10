@@ -5,21 +5,22 @@
     android:layout_height="match_parent"
     android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
     tools:context=".login.SignUp">
+
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
-            android:textColor="@color/purple_700"
-            android:textSize="25sp"
             android:fontFamily="@font/robotoslabold"
-            android:text="Debdeb Poultry Farm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:text="AN1 Poultry"
+            android:textColor="@color/purple_700"
+            android:textSize="30sp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -38,7 +39,7 @@
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/robotoslabold"
                 android:hint="Fullname"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:maxLines="1"
                 android:paddingStart="17dp"
                 android:paddingTop="15dp"
@@ -64,21 +65,55 @@
             android:background="@drawable/custom_rounded_card">
             <!-- INPUT -->
             <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/phone_icon"
+                android:autofillHints=""
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/robotoslabold"
+                android:hint="Phone"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:paddingStart="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="12sp" />
+            <!-- ICON -->
+            <ImageView
+                android:id="@+id/phone_icon"
+                android:layout_width="14.7dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="17dp"
+                android:src="@drawable/phone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="12.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/custom_rounded_card">
+            <!-- INPUT -->
+            <EditText
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/address_icon"
+                android:autofillHints=""
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/robotoslabold"
                 android:hint="Address"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="12sp"
-                android:autofillHints="" />
+                android:textSize="12sp" />
             <!-- ICON -->
             <ImageView
                 android:id="@+id/address_icon"
@@ -153,8 +188,8 @@
                 android:layout_height="10.3dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="17dp"
-                android:src="@drawable/password"
-                android:contentDescription="icon" />
+                android:contentDescription="icon"
+                android:src="@drawable/password" />
         </RelativeLayout>
 
         <TextView
@@ -166,15 +201,16 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="62dp"
             android:background="@drawable/blue_fill__rounded_color"
+            android:clickable="true"
+            android:focusable="true"
             android:fontFamily="@font/robotoslabold"
             android:gravity="center"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
             android:text="Register"
-            android:clickable="true"
             android:textColor="@color/white"
-            android:textSize="12sp"
-            android:focusable="true" />
+            android:textSize="12sp" />
+
         <TextView
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
@@ -184,15 +220,15 @@
             android:layout_marginTop="18.7dp"
             android:layout_marginRight="62dp"
             android:background="@drawable/custom_rounded_card"
+            android:clickable="true"
+            android:focusable="true"
             android:fontFamily="@font/robotoslabold"
             android:gravity="center"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
             android:text="Login"
-            android:clickable="true"
             android:textColor="#1566e0"
-            android:textSize="12sp"
-            android:focusable="true" />
+            android:textSize="12sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
     <ProgressBar

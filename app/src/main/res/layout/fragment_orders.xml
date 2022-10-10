@@ -9,13 +9,28 @@
     <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerOrders"
-        android:background="@color/light_gray_2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_gray_2" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvEmptyList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawablePadding="4dp"
+        android:fontFamily="@font/robotoslabold"
+        android:text="No purchases yet!"
+        android:textColor="@color/dark_gray"
+        android:textSize="25sp"
+        android:drawableTint="@color/dark_gray"
+        app:drawableStartCompat="@drawable/ic_baseline_checklist_24" />
+
+
 
     <ProgressBar
         android:id="@+id/progressBar"
