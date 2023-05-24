@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -15,7 +16,9 @@ import com.example.debdebpoultry.components.CheckOut
 import com.example.debdebpoultry.config.ApiUrlRoutes
 import com.example.debdebpoultry.models.CartModel
 import com.example.debdebpoultry.models.CartModel2
+import com.example.debdebpoultry.models.ProductPriceModel
 import com.squareup.picasso.Picasso
+import org.json.JSONObject
 import java.util.HashMap
 
 class CartAdapter(private var totalAmount:TextView,private val btnCheckOut:Button, private val context: Context, private val cartList:ArrayList<CartModel>): RecyclerView.Adapter<CartAdapter.MyViewHolder>() {
@@ -27,6 +30,9 @@ class CartAdapter(private var totalAmount:TextView,private val btnCheckOut:Butto
         val total:  TextView = itemView.findViewById(R.id.tvTotal)
         val unit:  TextView = itemView.findViewById(R.id.tvSize)
         val img : ImageView = itemView.findViewById(R.id.cardImg)
+        val minusQty : ImageButton = itemView.findViewById(R.id.btnMinusQty)
+        val addQty : ImageButton = itemView.findViewById(R.id.btnAddQty)
+        val deleteCart : ImageButton = itemView.findViewById(R.id.btnDeleteCart)
         val checkbox : CheckBox = itemView.findViewById(R.id.checkbox)
     }
 
@@ -35,34 +41,82 @@ class CartAdapter(private var totalAmount:TextView,private val btnCheckOut:Butto
         return MyViewHolder(view)
     }
 
+    private fun deleteCart(currentItem: CartModel, position: Int) {
+        val url = ApiUrlRoutes(currentItem.id).getCart
+        val stringRequest= object : StringRequest(
+            Method.DELETE,url,
+            Response.Listener{
+                Toast.makeText(context, "Deleted!", Toast.LENGTH_SHORT).show()
+                cartList.removeAt(position)
+                notifyItemRemoved(position)
+            },
+            Response.ErrorListener {
+                Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+            }){}
+
+        val queue = Volley.newRequestQueue(context)
+        queue.add(stringRequest)
+    }
+
+    private fun alterCart(currentItem: CartModel, position: Int) {
+        val url = ApiUrlRoutes(currentItem.id).getCart
+            val stringRequest= object : StringRequest(
+                Method.PUT,url,
+                Response.Listener{
+                },
+                Response.ErrorListener {
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                }){
+                override fun getParams(): MutableMap<String, String> {
+                    val params= HashMap<String,String>()
+                    params["tray"] = currentItem.tray.toString()
+                    params["total"] = currentItem.total.toString()
+                    return params
+                }
+            }
+            val queue = Volley.newRequestQueue(context)
+            queue.add(stringRequest)
+    }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = cartList[position]
         val total = "Php" + " " + currentItem.total.toString()
         val num = "x" + currentItem.tray.toString()
+
         holder.productName.text = currentItem.prod_name.replaceFirstChar { it.uppercase() }
         holder.quanti.text = num
         holder.total.text = total
         holder.unit.text = currentItem.size.replaceFirstChar { it.uppercase() }
-
         val imgHost = ApiUrlRoutes().hostImg + currentItem.img
         Picasso.get().load(imgHost).into(holder.img)
         holder.checkbox.isChecked = currentItem.isChecked
 
-        holder.unit.setOnClickListener {
-            val url = ApiUrlRoutes(currentItem.id).getCart
-            val stringRequest= object : StringRequest(
-                Method.DELETE,url,
-                Response.Listener{
-                    Toast.makeText(context, "Deleted!", Toast.LENGTH_SHORT).show()
-                    cartList.removeAt(position)
-                    notifyItemRemoved(position)
-                },
-                Response.ErrorListener {
-                    Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
-                }){}
-
-            val queue = Volley.newRequestQueue(context)
-            queue.add(stringRequest)
+        holder.deleteCart.setOnClickListener {
+            deleteCart(currentItem,position)
+        }
+        holder.minusQty.setOnClickListener {
+            val defaultPrice = (currentItem.total / currentItem.tray)
+            if (currentItem.tray == 1){
+                deleteCart(currentItem,position)
+            }else{
+                currentItem.tray--
+                currentItem.total = defaultPrice * currentItem.tray
+                holder.total.text = "Php ${currentItem.total}"
+                holder.quanti.text =  "x${currentItem.tray}"
+                alterCart(currentItem, position)
+            }
+        }
+        holder.addQty.setOnClickListener {
+            val defaultPrice = (currentItem.total / currentItem.tray)
+            if (currentItem.tray <= currentItem.stock){
+                currentItem.tray++
+                currentItem.total = defaultPrice * currentItem.tray
+                holder.total.text = "Php ${currentItem.total}"
+                holder.quanti.text = "x${currentItem.tray}"
+                alterCart(currentItem, position)
+            }else{
+                Toast.makeText(context, "exceeds stock limit!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         holder.checkbox.setOnCheckedChangeListener { compoundButton, b ->

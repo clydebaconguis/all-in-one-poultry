@@ -7,31 +7,24 @@
     tools:context=".pages.OrdersFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerOrders"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayoutOrders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:background="@color/light_gray_2" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvEmptyList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:drawablePadding="4dp"
-        android:fontFamily="@font/robotoslabold"
-        android:text="No purchases yet!"
-        android:textColor="@color/dark_gray"
-        android:textSize="25sp"
-        android:drawableTint="@color/dark_gray"
-        app:drawableStartCompat="@drawable/ic_baseline_checklist_24" />
-
-
-
+        android:layout_alignParentEnd="true">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerOrders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:background="@color/light_gray_2" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -39,5 +32,16 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
 
-
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/emptyLabelOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/custom_rounded_text"
+        android:backgroundTint="@color/light_gray"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="4dp"
+        android:text="You have empty orders"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 </RelativeLayout>

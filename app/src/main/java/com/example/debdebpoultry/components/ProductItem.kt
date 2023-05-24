@@ -1,12 +1,21 @@
 package com.example.debdebpoultry.components
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.children
+import androidx.core.view.forEach
+import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +30,9 @@ import com.example.debdebpoultry.config.ApiUrlRoutes
 import com.example.debdebpoultry.config.SharedPref
 import com.example.debdebpoultry.models.ProductCategoryModel
 import com.example.debdebpoultry.models.ProductPriceModel
+import com.example.debdebpoultry.pages.CartFragment
+import com.example.debdebpoultry.pages.MainActivity
+import com.google.android.material.textfield.TextInputEditText
 import com.squareup.picasso.Picasso
 import org.json.JSONArray
 import org.json.JSONObject
@@ -40,10 +52,11 @@ class ProductItem : AppCompatActivity() {
     private var totalPrice = 0.00
     private var size = ""
     private var type = ""
+    private var stock = 0
 
     // view variables
     private lateinit var recyclerHorizontal : RecyclerView
-    private lateinit var linearContain : LinearLayout
+    private lateinit var linearContain : LinearLayoutCompat
     private lateinit var toolbarTitle : TextView
     private lateinit var btn_add : ImageButton
     private lateinit var btn_min : ImageButton
@@ -98,8 +111,12 @@ class ProductItem : AppCompatActivity() {
             if (totalPrice > 0.00 &&
                 !quanti.text.isNullOrEmpty() &&
                 quanti.text.toString().toInt() > 0 &&
-                !size.isNullOrEmpty()){
-                postCart()
+                size.isNotEmpty()){
+                if (quanti.text.toString().toInt() <= stock){
+                    postCart()
+                }else{
+                    Toast.makeText(this, "quantity exceeds stock limit!",Toast.LENGTH_SHORT).show()
+                }
             }
             else{
                 Toast.makeText(this, "Fill all fields!",Toast.LENGTH_SHORT).show()
@@ -130,19 +147,70 @@ class ProductItem : AppCompatActivity() {
             val h2 = tvPrices.findViewById<TextView>(R.id.textViewHid2)
             val jo = priceList[i]
             p.text = jo.unit
-            h.text = jo.value.toString()
+            val devshare = jo.value + (0.05 * jo.value)
+            h.text = devshare.toString()
             h2.text = jo.type
+
             p.setOnClickListener {
                 size =  p.text.toString()
                 type = h2.text.toString()
                 val temp = h.text.toString()
                 _price = temp.toDouble()
-                val initP = "$php $temp"
-                price.text = initP
+                var initP = 0.0
+                initP = if (type.trim().lowercase() == "eggs" || type.trim().lowercase() == "egg"){
+                    (jo.value*0.05 + jo.value) * 30
+                }else{
+                    (jo.value*0.05 + jo.value)
+                }
+                price.text = "Php $initP"
                 compute()
+                val childCount = linearContain.childCount
+                var index = 0
+                while (index < childCount) {
+                    val element = linearContain.getChildAt(index)
+                    if (element is ViewGroup){
+                        val highlight = element.findViewById<TextView>(R.id.textViewPrice)
+                        if (highlight.text.toString() == size){
+                            highlight.setTextColor(Color.WHITE)
+                            highlight.setBackgroundResource(R.drawable.custom_card_dark)
+                            highlight.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_check_circle_outline_24,0,0,0)
+                        }else{
+                            highlight.setTextColor(Color.BLACK)
+                            highlight.setBackgroundColor(Color.WHITE)
+                            highlight.setBackgroundResource(R.drawable.custom_card)
+                            highlight.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,0)
+                        }
+
+                    }
+                    index++
+                }
             }
             linearContain.addView(tvPrices)
-            i++
+            val initial = linearContain.getChildAt(0)
+            if (initial is ViewGroup){
+                val elem = initial.findViewById<TextView>(R.id.textViewPrice)
+                val elemPrice = initial.findViewById<TextView>(R.id.textViewHid)
+                val elemType = initial.findViewById<TextView>(R.id.textViewHid2)
+                elem.gravity = Gravity.CENTER_VERTICAL
+                elem.setTextColor(Color.WHITE)
+                elem.setBackgroundResource(R.drawable.custom_card_dark)
+                elem.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_check_circle_outline_24,0,0,0)
+                size =  elem.text.toString()
+                type = elemType.text.toString()
+                val temp = elemPrice.text.toString()
+                _price = temp.toDouble()
+                var initP = 0.0
+                initP = if (type.trim().lowercase() == "eggs" || type.trim().lowercase() == "egg"){
+                    (jo.value*0.05 + jo.value) * 30
+                }else{
+                    (jo.value*0.05 + jo.value)
+                }
+//                val initP = elemPrice.text.toString().toDouble() * 30
+                price.text = "Php $initP"
+                compute()
+                i++
+            }
+
         }
     }
 
@@ -238,11 +306,13 @@ class ProductItem : AppCompatActivity() {
         if (intent.hasExtra("prodId") && intent.hasExtra("prodName")) {
             prod_id = intent.getIntExtra("prodId", 0)
             val name = intent.getStringExtra("prodName")
+            stock = intent.getIntExtra("stock", 0)
             val imgUrl = intent.getStringExtra("img")
             Picasso.get().load(imgUrl).into(cardImg)
             // get data
             fetchData()
-            toolbarTitle.text = name.toString().replaceFirstChar { it.uppercase() }
+            val barLabel = name.toString().replaceFirstChar { it.uppercase() }  + " ($stock)"
+            toolbarTitle.text = barLabel
         }
     }
 
@@ -289,20 +359,15 @@ class ProductItem : AppCompatActivity() {
     }
 
     private fun parseProduct(products: JSONArray) {
-        var status = ""
         var index = 0
         while (index < products.length() ){
             val jo = products.getJSONObject(index)
             val id = jo.getInt("id")
             val img = jo.getString("image")
             val name = jo.getString("name")
-            val st = jo.getInt("status")
-            status = if (st == 1){
-                "Available now"
-            }else{
-                "Unavailable!"
-            }
-            productList.add(ProductCategoryModel(id,name,status,img))
+            val stock = jo.getInt("stock")
+            val status = jo.getInt("status")
+            if (id != prod_id) productList.add(ProductCategoryModel(id,name,status,img,stock))
             index++
         }
 
@@ -312,5 +377,28 @@ class ProductItem : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    //setting menu in action bar
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.option_menu_cart,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    // actions on click menu items
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.cart -> {
+            val intent = Intent(this,MainActivity::class.java)
+            intent.putExtra("fragCart", "cartFragment")
+            startActivity(intent)
+            finish()
+            true
+        }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
     }
 }

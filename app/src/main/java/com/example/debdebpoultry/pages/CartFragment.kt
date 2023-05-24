@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -40,6 +41,7 @@ class CartFragment : Fragment() {
     private lateinit var spf : SharedPref
     private var list = ArrayList<CartModel>()
     private val inital = "Php 0.00"
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -79,7 +81,7 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         spf = SharedPref(requireContext())
-        tvEmptyList = view.findViewById(R.id.tvEmptyList)
+        tvEmptyList = view.findViewById(R.id.emptyLabelCart)
         loading =  view.findViewById(R.id.progressBar)
         totalAmount = view.findViewById(R.id.totalAmount)
         totalAmount.text = inital
@@ -88,6 +90,12 @@ class CartFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
         tvEmptyList.isVisible = false
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutCart)
+        swipeRefreshLayout.setOnRefreshListener {
+            list.clear()
+            fetchData()
+            swipeRefreshLayout.isRefreshing = false
+        }
         fetchData()
     }
     private fun fetchData() {
@@ -113,7 +121,6 @@ class CartFragment : Fragment() {
         queue.add(stringRequest)
     }
     private fun parseJson(jsonResponse: String){
-
         try {
             val ja = JSONArray(jsonResponse)
             var index = 0
@@ -126,7 +133,8 @@ class CartFragment : Fragment() {
                 val size = jo.getString("size")
                 val total = jo.getDouble("total")
                 val tray = jo.getInt("tray")
-                list.add(CartModel(id, prod_id, prod_name, prod_img ,size, total, tray))
+                val stock = jo.getInt("stock")
+                list.add(CartModel(stock, id, prod_id, prod_name, prod_img ,size, total, tray))
                 index++
             }
             if (list.isEmpty()){

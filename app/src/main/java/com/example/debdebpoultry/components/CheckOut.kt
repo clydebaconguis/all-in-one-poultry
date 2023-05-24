@@ -1,41 +1,45 @@
 package com.example.debdebpoultry.components
 
-import android.annotation.SuppressLint
+import android.Manifest
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.os.Looper
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.core.view.marginTop
-import androidx.core.widget.ImageViewCompat
-import com.android.volley.AuthFailureError
-import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.debdebpoultry.R
+import com.example.debdebpoultry.adapters.CartAdapter
 import com.example.debdebpoultry.config.ApiUrlRoutes
 import com.example.debdebpoultry.config.SharedPref
+import com.example.debdebpoultry.models.CartModel
 import com.example.debdebpoultry.models.CartModel2
-import com.example.debdebpoultry.pages.CartFragment
 import com.example.debdebpoultry.pages.MainActivity
+import com.google.android.gms.location.*
 import com.google.android.material.textfield.TextInputEditText
 import com.squareup.picasso.Picasso
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.HashMap
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CheckOut : AppCompatActivity() {
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var carts : ArrayList<CartModel2>
     private lateinit var contain : LinearLayoutCompat
     private lateinit var containDetails : LinearLayoutCompat
@@ -50,10 +54,14 @@ class CheckOut : AppCompatActivity() {
     private lateinit var btnPlaceOrder : Button
     private lateinit var tvAddress : TextInputEditText
     private lateinit var tvPhone : TextInputEditText
+    private lateinit var inputReference : EditText
     private lateinit var spf : SharedPref
     private lateinit var loading : ProgressBar
-    private var paymentOpt : String = ""
+    private lateinit var GCash : TextView
+    private var paymentOpt = ""
     private var totFee = 0.00
+    private var lat: Double = 0.0
+    private var long : Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +71,13 @@ class CheckOut : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.title = ""
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        findViewById<TextView>(R.id.getLocation).setOnClickListener {
+            fetchLocation()
+        }
         contain = findViewById(R.id.contain)
+        GCash = findViewById(R.id.gcash_num)
         containDetails = findViewById(R.id.containDetails)
         tvSubTotal = findViewById(R.id.tvSubTotal)
         tvDeliveryFee = findViewById(R.id.tvDeliveryFee)
@@ -77,42 +91,178 @@ class CheckOut : AppCompatActivity() {
         editAddress = findViewById(R.id.editAddress)
         editPhone = findViewById(R.id.editPhone)
         tvPhone = findViewById(R.id.phone)
+        inputReference = findViewById(R.id.inputReference)
+        inputReference.isVisible = false
         val uncheck: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_radio_button_unchecked_24, null)
         val check: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_check_circle_24, null)
+        tvDeliveryFee.text = "Php 100"
         rdCod.buttonDrawable = uncheck
         rdGcash.buttonDrawable = uncheck
         rdCod.setOnClickListener {
             paymentOpt = "COD"
             rdCod.buttonDrawable = check
             rdGcash.buttonDrawable = uncheck
+            inputReference.isVisible = false
         }
         rdGcash.setOnClickListener {
             paymentOpt = "GCASH"
             rdCod.buttonDrawable = uncheck
             rdGcash.buttonDrawable = check
+            inputReference.isVisible = true
         }
         btnPlaceOrder.setOnClickListener {
-            if (paymentOpt.isNotEmpty()){
+            if(tvAddress.text.toString().isEmpty() || tvPhone.text.toString().isEmpty() || paymentOpt.isBlank()){
+                Toast.makeText(this, "Fill all fields!", Toast.LENGTH_SHORT).show()
+            }
+            if (paymentOpt == "GCASH" && inputReference.text.isEmpty()){
+                Toast.makeText(this, "Input valid reference!", Toast.LENGTH_SHORT).show()
+            }
+            if (tvPhone.text.toString().length < 11){
+                Toast.makeText(this, "Invalid phone number!", Toast.LENGTH_SHORT).show()
+            }
+            if (paymentOpt == "GCASH" && inputReference.text.isNotEmpty() && inputReference.text.length < 13){
+                Toast.makeText(this, "minimum reference length not meet!", Toast.LENGTH_SHORT).show()
+            }
+            if (tvAddress.text.toString().isNotEmpty() && tvPhone.text.toString().isNotEmpty() && tvPhone.text.toString().length >= 11 && paymentOpt.isNotBlank() && paymentOpt == "COD"){
                 saveOrder()
-            }else{
-                Toast.makeText(this, "Select payment option pls!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "success!", Toast.LENGTH_SHORT).show()
+            }
+            if (tvAddress.text.toString().isNotEmpty() && tvPhone.text.toString().isNotEmpty() && paymentOpt.isNotBlank() && paymentOpt == "GCASH" && inputReference.text.isNotEmpty() && inputReference.text.length >= 13 && tvPhone.text.toString().length >= 11 ){
+                saveOrder()
+//                Toast.makeText(this, "success!", Toast.LENGTH_SHORT).show()
             }
         }
-        editAddress.setOnClickListener {
-            tvAddress.isEnabled = true
-        }
-        editPhone.setOnClickListener {
-            tvPhone.isEnabled = true
-        }
-        tvAddress.setText(spf.userAddress.toString().replaceFirstChar { it.uppercase() })
         tvPhone.setText("+63 " + spf.phone)
-
+        fetchGcash()
         addView()
     }
+    private fun fetchGcash() {
+        loading.isVisible = true
+        val url = ApiUrlRoutes().getAccount
+        val stringRequest= object : StringRequest(
+            Method.GET,url,
+            Response.Listener{
+                loading.isVisible = false
+                parseJson(it)
+            },
+            Response.ErrorListener {
+                loading.isVisible = false
+                Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+            }){}
+
+        val queue = Volley.newRequestQueue(this)
+        queue.add(stringRequest)
+    }
+    private fun parseJson(jsonResponse: String){
+        try {
+            var number = ""
+            val ja = JSONArray(jsonResponse)
+            var index = 0
+            while (index < ja.length() ){
+                val jo = ja.getJSONObject(index)
+                val num = jo.getString("num")
+//                val passcode = jo.getString("passcode")
+                index++
+                number += "\n$num"
+                GCash.text = "Send to \n$number"
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+    }
+
+    private fun fetchLocation() {
+        val task = fusedLocationProviderClient.lastLocation
+
+        if (ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION), 101)
+        }
+        if(isLocationEnabled()){
+            task.addOnSuccessListener {
+                if (it != null){
+                    lat = it.latitude
+                    long = it.longitude
+                    getAddressInfo(lat,long)
+//                    Toast.makeText(this,"$lat $long",Toast.LENGTH_SHORT).show()
+                }else{
+                    NewLocationData()
+                }
+            }
+        }
+        else{
+            Toast.makeText(this,"Please turn on your device location",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun NewLocationData(){
+        var locationRequest =  LocationRequest()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 0
+        locationRequest.fastestInterval = 0
+        locationRequest.numUpdates = 1
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        fusedLocationProviderClient.requestLocationUpdates(
+            locationRequest,locationCallback, Looper.myLooper()
+        )
+    }
+
+
+    private val locationCallback = object : LocationCallback(){
+        override fun onLocationResult(locationResult: LocationResult) {
+            val lastLocation: Location? = locationResult.lastLocation
+            if (lastLocation != null) {
+                lat = lastLocation.latitude
+                long = lastLocation.longitude
+                Log.d("Debug:","your last last location: "+ lastLocation.longitude.toString())
+                getAddressInfo(lat,long)
+            }
+        }
+    }
+
+    fun isLocationEnabled():Boolean{
+        //this function will return to us the state of the location service
+        //if the gps or the network provider is enabled then it will return true otherwise it will return false
+        var locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    private fun getAddressInfo(latitude:Double, longitude:Double){
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val addresses: List<Address> = geocoder.getFromLocation(latitude, longitude, 1)
+
+        val address: String = addresses[0].getAddressLine(0)
+//        val city: String = addresses[0].locality
+//        val state: String = addresses[0].adminArea
+//        val country: String = addresses[0].countryName
+//        val postalCode: String = addresses[0].postalCode
+//        val knownName: String = addresses[0].featureName
+
+        tvAddress.setText(address)
+        Toast.makeText(applicationContext, address, Toast.LENGTH_SHORT).show()
+
+    }
+
 
     private fun saveOrder(){
         val user_id = spf.userID.toString()
-        val user_add = spf.userAddress.toString()
+        val user_add = tvAddress.text.toString()
         val total_payment = totFee.toString()
         val payment_opt = paymentOpt
         val status = "for approval"
@@ -132,7 +282,6 @@ class CheckOut : AppCompatActivity() {
 
         val stringRequest= object : StringRequest(
             Method.POST, ApiUrlRoutes().saveOrder,
-
             Response.Listener{
                 loading.isVisible = false
 //                Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
@@ -146,7 +295,8 @@ class CheckOut : AppCompatActivity() {
                     //set title
                     .setTitle("Official Receipt")
                     //set message
-                    .setMessage("$name \nAddress: Cagayan de Oro City \nPhone: 09554587790 \nTransaction code: $code \nTotal Payment: $totFee")
+                    .setMessage("$name \nAddress: $user_add \nPhone: ${tvPhone.text.toString()}" +
+                            " \nTransaction ID: $code \n \nTotal Payment: $totFee")
                     //set positive button
                     .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, i ->
                         val intent = Intent(this, MainActivity::class.java)
@@ -177,10 +327,17 @@ class CheckOut : AppCompatActivity() {
                 val params= HashMap<String,String>()
                 params["user_id"] = user_id
                 params["user_add"] = user_add
+                params["phone"] = tvPhone.text.toString()
                 params["total_payment"] = total_payment
                 params["payment_opt"] = payment_opt
                 params["products"] = jsonProducts.toString()
                 params["status"] = status
+                params["lat"] = lat.toString()
+                params["long"] = long.toString()
+                params["purpose"] = "store"
+                if (paymentOpt == "GCASH"){
+                    params["proof_of_payment"] = inputReference.text.toString()
+                }
                 return params
             }
         }
@@ -213,12 +370,10 @@ class CheckOut : AppCompatActivity() {
             contain.addView(row)
         }
         val sb = "Php $subTot"
-        val df = "Php 100"
-        totFee = ((subTot * 0.05) + subTot) + 100.00
+        totFee =  subTot + 100.00
         val tp = "Php $totFee"
         val tt = "Total: Php $totFee"
         tvSubTotal.text = sb
-        tvDeliveryFee.text = df
         tvTotalPayment.text = tp
         tvTotal.text = tt
         loading.isVisible = false

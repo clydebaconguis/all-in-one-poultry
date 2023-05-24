@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -30,6 +31,7 @@ class HomeFragment() : Fragment() {
     private lateinit var loading : ProgressBar
     private lateinit var recyclerView: RecyclerView
     private var list = ArrayList<ProductCategoryModel>()
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +76,12 @@ class HomeFragment() : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerHome)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout.setOnRefreshListener {
+            list.clear()
+            fetchData()
+            swipeRefreshLayout.isRefreshing = false
+        }
         fetchData()
     }
 
@@ -97,7 +105,6 @@ class HomeFragment() : Fragment() {
     }
 
     private fun parseJson(jsonResponse: String){
-        var status = ""
         try {
             val ja = JSONArray(jsonResponse)
             var index = 0
@@ -106,13 +113,10 @@ class HomeFragment() : Fragment() {
                 val id = jo.getInt("id")
                 val img = jo.getString("image")
                 val name = jo.getString("name")
-                val st = jo.getInt("status")
-                if (st == 1){
-                    status = "Available now"
-                }else{
-                    status = "Unavailable!"
-                }
-                list.add(ProductCategoryModel(id,name,status,img))
+                val status = jo.getInt("status")
+                val stock = jo.getInt("stock")
+
+                list.add(ProductCategoryModel(id,name,status,img,stock))
                 index++
             }
 

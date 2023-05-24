@@ -21,6 +21,9 @@ class ApiUrlRoutes(val id:Int=0) {
     val addCart = host + "carts"
     val getCart = host + "carts/$id"
 
+    //get gcash account
+    val getAccount = host + "accounts"
+
     //login
     val login = host + "login"
     val register = host + "register"
@@ -28,6 +31,6 @@ class ApiUrlRoutes(val id:Int=0) {
     //Orders
     val saveOrder = host + "transactions"
     val getTransac = host + "transactions/$id"
+    val getOrderDetails = host + "orders/$id"
 
-    val logout = host + "logout"
 }

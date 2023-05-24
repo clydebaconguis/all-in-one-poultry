@@ -3,31 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_orange"
     android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
     tools:context=".login.SignUp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginHorizontal="14dp"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/robotoslabold"
-            android:text="AN1 Poultry"
-            android:textColor="@color/purple_700"
-            android:textSize="30sp" />
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/logo" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="62dp"
-            android:layout_marginTop="36.7dp"
-            android:layout_marginRight="62dp"
             android:background="@drawable/custom_rounded_card">
             <!-- INPUT -->
             <EditText
@@ -45,7 +39,7 @@
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="12sp" />
+                android:textSize="16sp" />
             <!-- ICON -->
             <ImageView
                 android:id="@+id/fullname_icon"
@@ -59,9 +53,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="62dp"
-            android:layout_marginTop="12.7dp"
-            android:layout_marginRight="62dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/custom_rounded_card">
             <!-- INPUT -->
             <EditText
@@ -79,7 +71,7 @@
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="12sp" />
+                android:textSize="16sp" />
             <!-- ICON -->
             <ImageView
                 android:id="@+id/phone_icon"
@@ -93,9 +85,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="62dp"
-            android:layout_marginTop="12.7dp"
-            android:layout_marginRight="62dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/custom_rounded_card">
             <!-- INPUT -->
             <EditText
@@ -109,11 +99,11 @@
                 android:hint="Address"
                 android:inputType="text"
                 android:maxLines="1"
-                android:paddingLeft="17dp"
+                android:paddingStart="14dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="12sp" />
+                android:textSize="16sp" />
             <!-- ICON -->
             <ImageView
                 android:id="@+id/address_icon"
@@ -127,9 +117,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="62dp"
-            android:layout_marginTop="12.7dp"
-            android:layout_marginRight="62dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/custom_rounded_card">
             <!-- INPUT -->
             <EditText
@@ -146,7 +134,7 @@
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="12sp" />
+                android:textSize="16sp" />
             <!-- ICON -->
             <ImageView
                 android:id="@+id/username_icon"
@@ -160,9 +148,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="62dp"
-            android:layout_marginTop="12.7dp"
-            android:layout_marginRight="62dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/custom_rounded_card">
             <!-- INPUT -->
             <EditText
@@ -180,7 +166,7 @@
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="12sp" />
+                android:textSize="16sp" />
             <!-- ICON -->
             <ImageView
                 android:id="@+id/icon"
@@ -196,10 +182,7 @@
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="62dp"
             android:layout_marginTop="30dp"
-            android:layout_marginRight="62dp"
             android:background="@drawable/blue_fill__rounded_color"
             android:clickable="true"
             android:focusable="true"
@@ -208,17 +191,16 @@
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
             android:text="Register"
+            android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:layout_marginTop="12dp"
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="62dp"
-            android:layout_marginTop="18.7dp"
-            android:layout_marginRight="62dp"
             android:background="@drawable/custom_rounded_card"
             android:clickable="true"
             android:focusable="true"
@@ -227,8 +209,10 @@
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
             android:text="Login"
+            android:textAllCaps="true"
             android:textColor="#1566e0"
-            android:textSize="12sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
     <ProgressBar

@@ -54,25 +54,72 @@
                 android:backgroundTint="@color/light_gray_2"
                 android:background="@drawable/custom_rounded_card"
                 android:text="@string/delivery_address"
-                android:drawableEnd="@drawable/ic_baseline_edit_24"
                 android:textColor="@color/black" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/address"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Enter Address"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/address"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:scrollHorizontally="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_marginHorizontal="20dp"
-                android:padding="10dp"
-                android:enabled="false"
-                android:text="My address"
-                android:textSize="13sp"
-                android:textColor="@color/black" />
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content">
+                <View
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/light_gray"/>
+                <TextView
+                    android:layout_marginHorizontal="6dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/dark_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OR"/>
+
+                <View
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/light_gray"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <TextView
+                android:id="@+id/getLocation"
+                android:text="Get My Location"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:clickable="true"
+                android:textAlignment="center"
+                android:textColor="@color/blue"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginVertical="5dp"
-                android:background="@color/dark_gray" />
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="20dp"
+                android:background="@color/light_gray" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/editPhone"
@@ -82,31 +129,39 @@
                 android:drawablePadding="5dp"
                 android:drawableTint="@color/green"
                 android:padding="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:layout_marginHorizontal="5dp"
                 android:backgroundTint="@color/light_gray_2"
                 android:background="@drawable/custom_rounded_card"
-                android:text="Phone Number"
-                android:drawableEnd="@drawable/ic_baseline_edit_24"
+                android:text="Contact Number"
                 android:textColor="@color/black" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phone"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:padding="10dp"
-                android:text="My Phone"
-                android:enabled="false"
-                android:textSize="13sp"
-                android:textColor="@color/black" />
+                android:layout_margin="10dp"
+                android:hint="Phone"
+              >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:scrollHorizontally="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginVertical="5dp"
-                android:background="@color/dark_gray" />
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="20dp"
+                android:background="@color/light_gray" />
+
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
@@ -181,11 +236,29 @@
 
             </TableRow>
 
+            <TextView
+                android:id="@+id/gcash_num"
+                android:text="Send to (0955 458 7790)"
+                android:layout_width="match_parent"
+                android:textColor="@color/dark_gray"
+                android:layout_marginHorizontal="20dp"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:hint="Reference"
+                android:inputType="number"
+                android:layout_marginTop="5dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputReference"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginVertical="5dp"
-                android:background="@color/black" />
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="20dp"
+                android:background="@color/light_gray" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/contain"
@@ -194,12 +267,6 @@
                 android:orientation="vertical" >
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginVertical="5dp"
-                android:background="@color/black" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/containDetails"

@@ -47,9 +47,10 @@
                 <ImageView
                     android:id="@+id/cardImg"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="wrap_content"
                     android:contentDescription="@string/fresh_eggs"
-                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/eggs" />
 
                 <TextView
@@ -62,21 +63,22 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Price"
-                    android:paddingVertical="5dp"
-                    android:paddingHorizontal="10dp"
                     android:background="@color/dark_gray"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:text="Price"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
-                <LinearLayout
-                    android:orientation="horizontal"
+
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/linearContainer"
-                    android:padding="10dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_below="@+id/cardImg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:layout_below="@+id/cardImg"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp" />
 
 
                 <TableRow

@@ -2,22 +2,22 @@ package com.example.debdebpoultry.pages
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.debdebpoultry.R
-import com.example.debdebpoultry.config.ApiUrlRoutes
 import com.example.debdebpoultry.config.SharedPref
 import com.example.debdebpoultry.login.SignIn
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
+import org.json.JSONObject
 import java.util.HashMap
 
 // TODO: Rename parameter arguments, choose names that match
@@ -40,7 +40,12 @@ class ProfileFragment : Fragment() {
     private lateinit var phone : TextView
     private lateinit var address : TextView
     private lateinit var email : TextView
+    private lateinit var editPassword : TextInputEditText
+    private lateinit var editOldPassword : TextInputEditText
+    private lateinit var btnEditPassword : TextView
+    private lateinit var btnSave : TextView
     private lateinit var spf : SharedPref
+    private var enabledEditPass  = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +91,27 @@ class ProfileFragment : Fragment() {
         address =  view.findViewById(R.id.address)
         email =  view.findViewById(R.id.email)
         signout =  view.findViewById(R.id.signout)
+        editPassword = view.findViewById(R.id.editPassword)
+        editOldPassword = view.findViewById(R.id.editOldPass)
+        btnEditPassword = view.findViewById(R.id.btnEditPassword)
+        btnSave = view.findViewById(R.id.btnSave)
+        btnEditPassword.setOnClickListener {
+            btnSave.isVisible = true
+            btnEditPassword.isVisible = false
+            editPassword.isVisible = true
+            editOldPassword.isVisible = true
+        }
+        btnSave.setOnClickListener {
+            if (editPassword.text.toString().length < 8){
+                Toast.makeText(requireContext(), "Password must not be lesser than 8 char", Toast.LENGTH_SHORT).show()
+            }
+            if (editPassword.text.toString().isEmpty() || editOldPassword.text.toString().isEmpty()){
+                Toast.makeText(requireContext(), "fill all fields", Toast.LENGTH_SHORT).show()
+            }
+            if(editPassword.text.toString().isNotEmpty() && editOldPassword.text.toString().isNotEmpty() && editPassword.text.toString().length >= 8){
+                changedPass()
+            }
+        }
 
         signout.setOnClickListener {
             logout()
@@ -96,33 +122,81 @@ class ProfileFragment : Fragment() {
         address.text = spf.userAddress.toString().replaceFirstChar{ it.uppercase() }
         email.text = spf.email.toString().replaceFirstChar{ it.uppercase() }
     }
-
-    private fun logout() {
-        val url = ApiUrlRoutes().logout
+    private fun changedPass(){
+        val url = "https://larapoultry.herokuapp.com/api/chpass/${spf.userID}"
         val stringRequest= object : StringRequest(
             Method.POST,url,
             Response.Listener{
-                Toast.makeText(requireContext(), "Logged out!", Toast.LENGTH_SHORT).show()
-                signOut()
+                val jo = JSONObject(it)
+                if (jo.has("message")){
+                    val msg = jo.getString("message")
+                    if (msg == "success"){
+                        editPassword.isVisible = false
+                        editOldPassword.isVisible = false
+                        btnSave.isVisible = false
+                        btnEditPassword.isVisible = true
+                        editPassword.setText("")
+                        Toast.makeText(requireContext(), "Password Updated Successfully", Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(requireContext(), "Password Failed to update", Toast.LENGTH_SHORT).show()
+                    }
+                }
             },
             Response.ErrorListener {
                 Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
             }){
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Accept"] = "application/json"
+                headers["Content-Type"] = "application/x-www-form-urlencoded"
+                return headers
+            }
             override fun getParams(): MutableMap<String, String> {
                 val params= HashMap<String,String>()
-                params["user"] = spf.userID.toString()
+                params["password"] = editPassword.text.toString()
+                params["old_password"] = editOldPassword.text.toString()
                 return params
             }
         }
-
         val queue = Volley.newRequestQueue(requireContext())
         queue.add(stringRequest)
     }
 
+    private fun logout() {
+        try {
+            val url = "https://larapoultry.herokuapp.com/api/logout/${spf.userID}"
+            val stringRequest= object : StringRequest(
+                Method.GET,url,
+                Response.Listener{
+                    val jo = JSONObject(it)
+                    if (jo.has("message")){
+                        val msg = jo.getString("message")
+                        if (msg == "success"){
+                            Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                },
+                Response.ErrorListener {
+                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
+                }){
+            }
+            val queue = Volley.newRequestQueue(requireContext())
+            queue.add(stringRequest)
+            signOut()
+        }catch (e:Exception){
+            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
     private fun signOut(){
-        spf.signOut()
-        val intent = Intent(requireContext(), SignIn::class.java)
-        startActivity(intent)
-        this.requireActivity().finish()
+        try {
+            spf.signOut()
+            val intent = Intent(this.requireContext(), SignIn::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }catch (e:Exception){
+            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_SHORT).show()
+        }
     }
 }

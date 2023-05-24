@@ -26,31 +26,36 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/name"
-        android:text="Ed laurence Sandoval"
-        android:textSize="20sp"
+        android:text="Full Name"
+        android:textSize="21sp"
+        android:drawableStart="@drawable/ic_baseline_check_circle_outline_24"
+        android:fontFamily="@font/robotoslabold"
+        android:textAllCaps="true"
+        android:drawableTint="@color/blue"
+        android:drawablePadding="2dp"
         android:textColor="@color/black"
         android:textAlignment="center"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/robotoslabold"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/phone"
-        android:drawableStart="@drawable/ic_baseline_phone_enabled_24"
-        android:drawableTint="@color/blue"
+        android:id="@+id/address"
+        android:drawableEnd="@drawable/ic_baseline_location_on_24"
+        android:drawableTint="@color/black"
         android:drawablePadding="10dp"
+        android:textAllCaps="true"
         android:gravity="center_vertical"
         android:layout_marginHorizontal="10dp"
         android:background="@drawable/custom_rounded_text"
         android:paddingVertical="10dp"
         android:paddingHorizontal="20dp"
-        android:text="09554567790"
+        android:text="Address"
         android:textColor="@color/black"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,32 +63,35 @@
         app:layout_constraintTop_toBottomOf="@id/name"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/address"
-        android:drawableStart="@drawable/ic_baseline_location_on_24"
-        android:drawableTint="@color/light_red"
+        android:id="@+id/phone"
+        android:drawableEnd="@drawable/ic_baseline_phone_enabled_24"
+        android:drawableTint="@color/black"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
         android:layout_marginHorizontal="10dp"
         android:background="@drawable/custom_rounded_text"
         android:paddingVertical="10dp"
         android:paddingHorizontal="20dp"
-        android:text="Bulua, Cdo, Mis-Or"
+        android:text="09554567790"
+        android:textSize="15sp"
+        android:textAllCaps="true"
         android:textColor="@color/black"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/phone"/>
+        app:layout_constraintTop_toBottomOf="@id/address"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/email"
-        android:drawableStart="@drawable/ic_baseline_email_24"
-        android:drawableTint="@color/yellow2"
+        android:drawableEnd="@drawable/ic_baseline_email_24"
+        android:drawableTint="@color/black"
         android:drawablePadding="10dp"
         android:layout_marginHorizontal="10dp"
         android:background="@drawable/custom_rounded_text"
         android:paddingVertical="10dp"
+        android:textAllCaps="true"
         android:gravity="center_vertical"
         android:paddingHorizontal="20dp"
         android:text="edlaurence@gmail.com"
@@ -93,18 +101,91 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/address"/>
+        app:layout_constraintTop_toBottomOf="@id/phone"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="40dp"
+        android:id="@+id/editWrap2"
+        android:hint="Enter Old Password"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editOldPass"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:visibility="gone"
+            android:scrollHorizontally="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        app:layout_constraintTop_toBottomOf="@+id/editWrap2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/editWrap"
+        android:hint="Enter New Password"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:visibility="gone"
+            android:scrollHorizontally="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        app:layout_constraintTop_toBottomOf="@+id/editWrap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:id="@+id/btnEditPassword"
+        android:textColor="@color/purple_700"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Password"
+        android:focusable="true" />
+    <TextView
+        app:layout_constraintTop_toBottomOf="@+id/editWrap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:visibility="gone"
+        android:id="@+id/btnSave"
+        android:textColor="@color/purple_700"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:focusable="true" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="20dp"
         app:cornerRadius="4dp"
+        android:textSize="12sp"
         android:text="Sign out"
-        android:textAllCaps="false"/>
+        app:backgroundTint="@color/black"
+        android:background="@drawable/custom_rounded_card"
+        android:textAllCaps="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

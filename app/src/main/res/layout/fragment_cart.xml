@@ -9,21 +9,29 @@
 
 
     <!-- TODO: Update blank fragment layout -->
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerCart"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_above="@+id/rowCheckout"
+        android:layout_height="match_parent"
+        android:id="@+id/swipeRefreshLayoutCart"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="-3dp"
-        android:background="@color/light_gray_2" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerCart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@+id/rowCheckout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="-3dp"
+            android:background="@color/light_gray_2" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <TableRow
         android:id="@+id/rowCheckout"
@@ -73,15 +81,18 @@
         />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvEmptyList"
+        android:id="@+id/emptyLabelCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:drawablePadding="4dp"
-        android:fontFamily="@font/robotoslabold"
-        android:text="You have empty cart!"
-        android:textColor="@color/dark_gray"
-        android:textSize="25sp"
-        app:drawableStartCompat="@drawable/ic_baseline_shopping_cart_24" />
+        android:background="@drawable/custom_rounded_text"
+        android:backgroundTint="@color/light_gray"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="4dp"
+        android:text="You have empty cart"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        />
 
 </RelativeLayout>

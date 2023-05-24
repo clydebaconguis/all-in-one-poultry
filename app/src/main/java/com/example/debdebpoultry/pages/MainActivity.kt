@@ -1,38 +1,20 @@
 package com.example.debdebpoultry.pages
 
-import android.content.Context
-import android.content.Intent
-import android.graphics.PorterDuff
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.TextView
-import android.widget.Toast
-import android.widget.Toolbar
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.example.debdebpoultry.R
-import com.example.debdebpoultry.config.ApiUrlRoutes
 import com.example.debdebpoultry.config.SharedPref
-import com.example.debdebpoultry.login.SignIn
-import com.example.debdebpoultry.models.ProductCategoryModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.json.JSONArray
-import java.util.HashMap
+import java.lang.Compiler.enable
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bottomNav:BottomNavigationView
     private lateinit var barTitle:TextView
-    private lateinit var productList: ArrayList<ProductCategoryModel>
     private lateinit var spf : SharedPref
-    private val tHome = "Debdeb Poultry"
+    private val tHome = "Poultry Ordering"
     private val tOrder = "Purchases"
     private val tNotif = "Notification"
     private val tCart = "Cart"
@@ -41,14 +23,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         spf = SharedPref(this)
-        loadFragment(HomeFragment())
+
+
         barTitle = findViewById(R.id.barTitle)
-        barTitle.setText(tHome).toString()
+        bottomNav= findViewById(R.id.bottomNav)
+
+        val frag = intent.getStringExtra("fragCart")
+        if (frag != null) {
+            loadFragment(CartFragment())
+            barTitle.text = tCart
+            bottomNav.selectedItemId = R.id.cart
+        }else{
+            loadFragment(HomeFragment())
+            barTitle.setText(tHome).toString()
+            bottomNav.selectedItemId = R.id.home
+        }
         //setting toolbar
         setSupportActionBar(findViewById(R.id.toolbarMain))
         //setting bottom Nav
-        bottomNav= findViewById(R.id.bottomNav)
-        bottomNav.selectedItemId = R.id.home
+//        bottomNav.selectedItemId = R.id.home
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home -> {
@@ -59,10 +52,10 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(OrdersFragment())
                     barTitle.setText(tOrder).toString()
                 }
-                R.id.notification -> {
-                    loadFragment(NotificationFragment())
-                    barTitle.text = tNotif
-                }
+//                R.id.notification -> {
+//                    loadFragment(NotificationFragment())
+//                    barTitle.text = tNotif
+//                }
                 R.id.cart -> {
                     loadFragment(CartFragment())
                     barTitle.text = tCart

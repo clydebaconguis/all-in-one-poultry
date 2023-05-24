@@ -1,23 +1,22 @@
 package com.example.debdebpoultry.login
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.net.wifi.WifiManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.format.Formatter
-import android.widget.*
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.debdebpoultry.R
+import com.example.debdebpoultry.components.TemporaryUser
 import com.example.debdebpoultry.config.ApiUrlRoutes
 import com.example.debdebpoultry.config.SharedPref
 import com.example.debdebpoultry.pages.MainActivity
 import org.json.JSONObject
-import java.util.HashMap
 
 
 class SignIn : AppCompatActivity() {
@@ -28,25 +27,24 @@ class SignIn : AppCompatActivity() {
     private lateinit var btn_register:TextView
     private lateinit var loading: ProgressBar
     private lateinit var spf : SharedPref
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
         spf = SharedPref(this)
-
         input_email = findViewById(R.id.email)
         input_password = findViewById(R.id.password)
         btn_login = findViewById(R.id.btn_login)
         btn_register = findViewById(R.id.btn_register)
         loading = findViewById(R.id.progressBar)
         loading.isVisible = false
-
         if(spf.hasToken()){
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
-
+        if (intent.hasExtra("uname")){
+            input_email.setText(intent.getStringExtra("uname"))
+        }
         btn_login.setOnClickListener{
             if(valid()){
                 login()
@@ -117,12 +115,21 @@ class SignIn : AppCompatActivity() {
                 val uEmail = juser.getString("email")
                 val uPhone = juser.getString("phone")
                 val uAddress = juser.getString("address")
+                val stat = juser.getInt("status")
                 val uToken = jobj.getString("token")
+//                val role = jobj.getString("role")
 
-                if (uID.toString().isNotEmpty() && uName.isNotEmpty() && uEmail.isNotEmpty() && uAddress.isNotEmpty() && uToken.isNotEmpty()){
-                    spf.store(uID, uName, uPhone, uAddress, uEmail, uToken)
-                    Toast.makeText(this, "Welcome $uName", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, MainActivity::class.java)
+                if (stat > 0){
+                    if (uID.toString().isNotEmpty() && uName.isNotEmpty() && uEmail.isNotEmpty() && uAddress.isNotEmpty() && uToken.isNotEmpty()){
+                        spf.store(uID, uName, uPhone, uAddress, uEmail, uToken)
+                        Toast.makeText(this, "Welcome $uName", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+                else{
+                    val intent = Intent(this, TemporaryUser::class.java)
                     startActivity(intent)
                     finish()
                 }

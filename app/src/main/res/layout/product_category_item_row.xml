@@ -6,23 +6,38 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     app:cardCornerRadius="10dp"
-    android:background="@color/white"
+    app:contentPadding="10dp"
+    android:background="@color/light_gray_2"
     app:cardElevation="20dp">
 
         <RelativeLayout
+            android:background="@color/light_gray_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/cardImg"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:backgroundTint="@color/peach"
                 android:contentDescription="@string/fresh_eggs"
-                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
                 android:src="@drawable/eggs" />
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/unavailable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:backgroundTint="@color/peach"
+                android:contentDescription="@string/fresh_eggs"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/unavailable" />
 
             <TextView
                 android:id="@+id/tvProduct"
@@ -38,16 +53,17 @@
                 android:textSize="17sp" />
 
             <TextView
+                android:gravity="center_vertical"
                 android:id="@+id/tvStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvProduct"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:drawablePadding="4dp"
                 android:text="@string/available"
-                android:layout_marginStart="20dp"
-                android:textAlignment="center"
                 android:textColor="@color/green"
                 android:textStyle="bold"
                 app:drawableStartCompat="@drawable/ic_baseline_check_circle_24" />

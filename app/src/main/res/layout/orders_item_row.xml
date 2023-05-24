@@ -1,53 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="8dp"
-    android:elevation="0dp"
-    android:background="@color/white"
-
-    >
+    app:cardElevation="2dp"
+    android:layout_marginVertical="2dp">
         <RelativeLayout
             android:background="@color/white"
-            android:padding="10dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="17dp"
+            android:backgroundTint="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTransac"
+                android:background="@drawable/custom_rounded_text"
                 android:layout_width="wrap_content"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                android:gravity="center_vertical"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:fontFamily="@font/robotoslabold"
+                android:layout_alignParentTop="true"
                 android:maxLines="1"
+                android:drawableStart="@drawable/ic_baseline_check_circle_24"
+                android:textStyle="bold"
                 android:singleLine="true"
+                android:padding="2dp"
                 android:text="@string/transac_no"
                 android:textColor="@color/dark_gray"
-                android:textSize="18sp" />
+                 />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/deliveryDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_below="@+id/tvTransac"
+                android:singleLine="true"
+                android:padding="2dp"
+                android:gravity="center_vertical"
+                android:drawablePadding="2dp"
+                android:drawableStart="@drawable/baseline_directions_car_24"
+                android:text="delivery date"
+                android:textColor="@color/dark_gray"
+                />
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvTransac"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/robotoslabold"
                 android:maxLines="1"
+                android:padding="2dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
                 android:singleLine="true"
+                android:textSize="12sp"
+                android:textStyle="italic"
                 android:text="For approval"
-                android:textColor="@color/green"
-                android:textSize="12sp" />
+                android:textColor="@color/dark_gray" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnViewOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/deliveryDate"
+                android:layout_alignParentEnd="true"
+                android:text="Details"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="5dp"
+                app:backgroundTint="@color/black"
+                android:background="@drawable/custom_rounded_card"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:textAllCaps="true" />
+            <TextView
+                android:id="@+id/btnCancelOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnViewOrder"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:text="Cancel"
+                android:visibility="gone"
+                android:clickable="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                app:backgroundTint="@color/light_red"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                android:textColor="@color/light_red"
+                android:textAllCaps="true"
+                android:focusable="true" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Debdeb</string>
-    <string name="company">Debdeb Poultry Farm</string>
+    <string name="app_name">AN1 Poultry</string>
+    <string name="company">AN1 Poultry</string>
     <string name="buy_eggs">Buy Eggs</string>
     <string name="reserve">Reserve</string>
     <string name="title_activity_buy_eggs">BuyEggs</string>
@@ -37,5 +37,7 @@
     <string name="delivery_address">Delivery Address</string>
     <string name="payment_options">Payment Options</string>
     <string name="cash_on_delivery">Cash On Delivery</string>
-    <string name="transac_no">Transac No.</string>
+    <string name="transac_no">ORDER ID</string>
+
+    <string name="title_activity_maps">Map Current Location</string>
 </resources>

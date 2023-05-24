@@ -1,7 +1,6 @@
 package com.example.debdebpoultry.pages
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,19 +8,18 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.core.widget.TextViewCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.debdebpoultry.R
 import com.example.debdebpoultry.adapters.OrdersAdapter
-import com.example.debdebpoultry.adapters.ProductCategoryAdapter
 import com.example.debdebpoultry.config.ApiUrlRoutes
 import com.example.debdebpoultry.config.SharedPref
 import com.example.debdebpoultry.models.OrdersModel
-import com.example.debdebpoultry.models.ProductCategoryModel
 import org.json.JSONArray
 
 // TODO: Rename parameter arguments, choose names that match
@@ -38,12 +36,13 @@ class OrdersFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
     private lateinit var loading : ProgressBar
-    private lateinit var noDisplay : TextView
+    private lateinit var emptyLabel : TextView
     private lateinit var recyclerView: RecyclerView
     private var list = ArrayList<OrdersModel>()
     private lateinit var spf : SharedPref
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,11 +87,18 @@ class OrdersFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerOrders)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
-        noDisplay = view.findViewById(R.id.tvEmptyList)
-        fetchData()
+        emptyLabel = view.findViewById(R.id.emptyLabelOrder)
+        emptyLabel.isVisible = false
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutOrders)
+        swipeRefreshLayout.setOnRefreshListener {
+            list.clear()
+            fetchDataOrders()
+            swipeRefreshLayout.isRefreshing = false
+        }
+        fetchDataOrders()
     }
 
-    private fun fetchData() {
+    private fun fetchDataOrders() {
         loading.isVisible =  true
         val url = ApiUrlRoutes(spf.userID).getTransac
         val stringRequest= object : StringRequest(
@@ -111,6 +117,8 @@ class OrdersFragment : Fragment() {
     }
 
     private fun parseJson(jsonResponse: String){
+        var dateToDeliver = ""
+        var dateDelivered = ""
         try {
             val ja = JSONArray(jsonResponse)
             var index = 0
@@ -119,16 +127,23 @@ class OrdersFragment : Fragment() {
                 val id = jo.getInt("id")
                 val code = jo.getString("trans_code")
                 val status = jo.getString("status")
-
-                list.add(OrdersModel(id, code, status))
+                val totalPayment = jo.getDouble("total_payment")
+                val paymentOpt = jo.getString("payment_opt")
+                val date = jo.getString("created_at")
+                if (jo.has("date_to_deliver")){
+                    dateToDeliver = jo.getString("date_to_deliver")
+                }
+                if (jo.has("date_delivered")){
+                    dateDelivered = jo.getString("date_delivered")
+                }
+                list.add(OrdersModel(id, code, status,totalPayment, paymentOpt, dateDelivered,dateToDeliver,date))
                 index++
             }
-
-            if (list.count() > 0 ){
-                recyclerView.adapter = OrdersAdapter(requireContext(),list)
-                noDisplay.isVisible = false
+            if(list.isEmpty()){
+                emptyLabel.isVisible = true
             }
 
+            recyclerView.adapter = OrdersAdapter(requireContext(),list)
 
         }catch (e: Exception){
             e.printStackTrace()

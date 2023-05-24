@@ -23,7 +23,7 @@
             android:id="@+id/barTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Debdeb Poultry"
+            android:text="Poultry Ordering"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:fontFamily="@font/robotoslabold"/>

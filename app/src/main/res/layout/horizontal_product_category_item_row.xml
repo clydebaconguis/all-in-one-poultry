@@ -10,8 +10,9 @@
     app:cardElevation="1dp">
 
         <RelativeLayout
+            android:background="@color/light_gray_2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="260dp">
 
             <ImageView
                 android:id="@+id/cardImg"
@@ -21,33 +22,46 @@
                 android:layout_alignParentTop="true"
                 android:backgroundTint="@color/peach"
                 android:contentDescription="@string/fresh_eggs"
-                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
                 android:src="@drawable/eggs" />
 
+            <ImageView
+                android:id="@+id/unavailable"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:backgroundTint="@color/peach"
+                android:contentDescription="@string/fresh_eggs"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/unavailable"
+                android:visibility="invisible" />
+
             <TextView
-                android:layout_centerInParent="true"
                 android:id="@+id/tvProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cardImg"
-                android:layout_marginTop="10dp"
-                android:maxLines="1"
+                android:layout_centerInParent="true"
                 android:fontFamily="@font/robotoslabold"
-                android:textColor="@color/black"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/fresh_eggs"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <TextView
-                android:layout_centerInParent="true"
                 android:id="@+id/tvStatus"
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvProduct"
+                android:layout_centerInParent="true"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
                 android:text="@string/available"
-                android:textSize="12sp"
                 android:textColor="@color/green"
-                 />
+                android:textSize="12sp" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>

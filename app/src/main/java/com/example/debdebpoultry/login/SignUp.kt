@@ -13,6 +13,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.debdebpoultry.R
 import com.example.debdebpoultry.adapters.ProductCategoryAdapter
+import com.example.debdebpoultry.components.TemporaryUser
 import com.example.debdebpoultry.config.ApiUrlRoutes
 import com.example.debdebpoultry.config.SharedPref
 import com.example.debdebpoultry.models.ProductCategoryModel
@@ -54,7 +55,11 @@ class SignUp : AppCompatActivity() {
 
         btn_register.setOnClickListener {
             if (valid()){
-                register()
+                try {
+                    register()
+                }catch (e:Exception){
+                    Toast.makeText(this,e.toString(), Toast.LENGTH_SHORT).show()
+                }
             }
             else
             {
@@ -105,6 +110,7 @@ class SignUp : AppCompatActivity() {
                 params["name"]= ufname
                 params["address"]= uaddress
                 params["phone"]= uphone
+                params["role"]= "client"
                 return params
             }
         }
@@ -116,22 +122,22 @@ class SignUp : AppCompatActivity() {
         try {
             if(jsonResponse.isNotEmpty()){
                 val jobj = JSONObject(jsonResponse)
-
+                Toast.makeText(this,"Registered Successfully!", Toast.LENGTH_LONG).show()
                 val juser = jobj.getJSONObject("user")
-                val uID = juser.getInt("id")
-                val uName = juser.getString("name")
                 val uEmail = juser.getString("email")
-                val uPhone = juser.getString("phone")
-                val uAddress = juser.getString("address")
-                val uToken = jobj.getString("token")
+//                val uID = juser.getInt("id")
+//                val uName = juser.getString("name")
+//                val uPhone = juser.getString("phone")
+//                val uAddress = juser.getString("address")
+//                val stat = juser.getInt("status")
+//                val uToken = jobj.getString("token")
 
-                if (uID.toString().isNotEmpty() && uName.isNotEmpty() && uEmail.isNotEmpty() && uAddress.isNotEmpty() && uToken.isNotEmpty()){
-                    spf.store(uID, uName, uPhone, uAddress, uEmail, uToken)
-                    Toast.makeText(this, "Welcome $uName", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
+                val intent = Intent(this, SignIn::class.java)
+                intent.putExtra("uname", uEmail)
+                startActivity(intent)
+                finish()
+
+//
             }
 
         }catch (e: Exception){
